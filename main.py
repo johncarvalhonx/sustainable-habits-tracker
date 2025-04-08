@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, Depends, HTTPException, status, BackgroundTasks
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy import create_engine, Column, Integer, String, Date, ForeignKey, func
 from sqlalchemy.ext.declarative import declarative_base
@@ -55,7 +55,7 @@ class Habit(Base):
 class HabitEntry(Base):
     __tablename__ = "habit_entries"
     id = Column(Integer, primary_key=True, index=True)
-    date = Column(Date, default=date.today)
+    date = Column(Date, ault=date.today)
     habit_id = Column(Integer, ForeignKey("habits.id"))
     user_id = Column(Integer, ForeignKey("users.id"))
     
@@ -121,8 +121,10 @@ class Summary(BaseModel):
 def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
+
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
+
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()
@@ -131,8 +133,10 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
 
+
 def get_user(db: Session, email: str):
     return db.query(User).filter(User.email == email).first()
+
 
 def authenticate_user(db: Session, email: str, password: str):
     user = get_user(db, email)
@@ -140,12 +144,14 @@ def authenticate_user(db: Session, email: str, password: str):
         return False
     return user
 
+
 def get_db():
     db = SessionLocal()
     try:
         yield db
     finally:
         db.close()
+
 
 def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
@@ -179,6 +185,7 @@ def signup(user: UserCreate, db: Session = Depends(get_db)):
     db.refresh(new_user)
     return new_user
 
+
 @app.post("/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = authenticate_user(db, form_data.username, form_data.password)
@@ -188,6 +195,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     access_token = create_access_token(data={"sub": user.email}, expires_delta=access_token_expires)
     return {"access_token": access_token, "token_type": "bearer"}
 
+
 @app.post("/habits", response_model=HabitOut)
 def create_habit(habit: HabitCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     new_habit = Habit(name=habit.name, description=habit.description, owner_id=current_user.id)
@@ -196,9 +204,11 @@ def create_habit(habit: HabitCreate, current_user: User = Depends(get_current_us
     db.refresh(new_habit)
     return new_habit
 
+
 @app.get("/habits", response_model=List[HabitOut])
 def list_habits(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
     return db.query(Habit).filter(Habit.owner_id == current_user.id).all()
+
 
 @app.post("/track", response_model=HabitEntryOut)
 def track_habit(entry: HabitEntryCreate, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
@@ -211,6 +221,7 @@ def track_habit(entry: HabitEntryCreate, current_user: User = Depends(get_curren
     db.commit()
     db.refresh(new_entry)
     return new_entry
+
 
 @app.get("/summary", response_model=List[Summary])
 def get_summary(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
