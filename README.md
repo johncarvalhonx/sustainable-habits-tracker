@@ -31,7 +31,7 @@ A modern RESTful API built with **FastAPI** to help users track and improve thei
 ### 🔹 Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/sustainable-habits-tracker.git
+git clone https://github.com/johncarvalhonx/sustainable-habits-tracker.git
 cd sustainable-habits-tracker
 ```
 
@@ -176,8 +176,8 @@ pytest
 
 **João Pedro Villas Boas de Carvalho**\
 Computer Science Student @ UNIP – Brazil\
-📧 [joaopvbcarvalho@gmail.com](mailto\:joaopvbcarvalho@gmail.com)\
-📎 www\.linkedin.com/in/joaopedrovbcarvalho
+📧 [joaopedrovillasboascarvalho@gmail.com](mailto\:joaopedrovillasboascarvalho@gmail.com)\
+📎 www.linkedin.com/in/joaopedrovbcarvalho
 
 If something is wrong, don't hesitate to tell me!
 
@@ -186,4 +186,3 @@ If something is wrong, don't hesitate to tell me!
 ## 📜 License
 
 This project is licensed under the MIT License.
-
