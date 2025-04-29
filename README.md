@@ -2,7 +2,7 @@
 
 Built by **João Pedro Carvalho**
 
-A modern RESTful API built with **FastAPI** to help users track and improve their sustainable habits. Features include secure authentication, habit creation, daily tracking, and automatic reporting — all containerized with Docker and ready for CI/CD.
+A modern RESTful API built with **FastAPI** to help users track and improve their sustainable habits. Features include secure authentication, habit creation, daily tracking, and automatic reporting all containerized with Docker and ready for CI/CD.
 
 ---
 
